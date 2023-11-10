@@ -6,9 +6,11 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import umc.week6.domain.dto.request.ReviewCreateRequest;
 import umc.week6.domain.dto.response.HomeResponse;
+import umc.week6.domain.dto.response.ReviewListResponse;
 import umc.week6.domain.service.HomeService;
 import umc.week6.domain.service.ReviewService;
 
@@ -35,5 +37,16 @@ public class MvpController {
         reviewService.writeReview(request);
     }
 
+    // 리뷰 전체 조회
+    // 제목, 내용, 작성자로 검색 가능 (각 요소들은 필수값이 아님)
+    @GetMapping("/review")
+    public Page<ReviewListResponse> getReviewList(
+            Pageable pageable,
+            @RequestParam(required = false) String title,
+            @RequestParam(required = false) String content,
+            @RequestParam(required = false) String writer
+    ) {
+        return reviewService.getReviewList(pageable, title, content, writer);
+    }
 
 }
