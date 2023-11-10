@@ -10,11 +10,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import umc.week6.domain.dto.request.AuthJoinRequest;
 import umc.week6.domain.dto.request.MissionChangeRequest;
 import umc.week6.domain.dto.request.ReviewCreateRequest;
 import umc.week6.domain.dto.response.HomeResponse;
 import umc.week6.domain.dto.response.ReviewDetailResponse;
 import umc.week6.domain.dto.response.ReviewListResponse;
+import umc.week6.domain.service.AuthService;
 import umc.week6.domain.service.HomeService;
 import umc.week6.domain.service.MissionService;
 import umc.week6.domain.service.ReviewService;
@@ -30,6 +32,7 @@ public class MvpController {
     private final HomeService homeService;
     private final ReviewService reviewService;
     private final MissionService missionService;
+    private final AuthService authService;
 
     // 홈 화면 스크롤
     @GetMapping("/home")
@@ -76,5 +79,11 @@ public class MvpController {
          *     String content;
          */
         missionService.missionChange(missionChangeRequest);
+    }
+
+    // 회원 가입
+    @PostMapping("/auth/signup")
+    public void signUp(@RequestBody AuthJoinRequest authJoinRequest) {
+        authService.signUp(authJoinRequest);
     }
 }
