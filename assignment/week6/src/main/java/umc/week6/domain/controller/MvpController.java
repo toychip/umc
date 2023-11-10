@@ -4,12 +4,14 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import umc.week6.domain.dto.request.ReviewCreateRequest;
 import umc.week6.domain.dto.response.HomeResponse;
+import umc.week6.domain.dto.response.ReviewDetailResponse;
 import umc.week6.domain.dto.response.ReviewListResponse;
 import umc.week6.domain.service.HomeService;
 import umc.week6.domain.service.ReviewService;
@@ -47,6 +49,12 @@ public class MvpController {
             @RequestParam(required = false) String writer
     ) {
         return reviewService.getReviewList(pageable, title, content, writer);
+    }
+
+    // 리뷰 상세 조회
+    @GetMapping("/review/{reviewId}")
+    public ReviewDetailResponse getReviewList(@PathVariable Long reviewId) {
+        return reviewService.getReviewDetail(reviewId);
     }
 
 }
