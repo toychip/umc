@@ -4,16 +4,19 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import umc.week6.domain.dto.request.MissionChangeRequest;
 import umc.week6.domain.dto.request.ReviewCreateRequest;
 import umc.week6.domain.dto.response.HomeResponse;
 import umc.week6.domain.dto.response.ReviewDetailResponse;
 import umc.week6.domain.dto.response.ReviewListResponse;
 import umc.week6.domain.service.HomeService;
+import umc.week6.domain.service.MissionService;
 import umc.week6.domain.service.ReviewService;
 
 
@@ -26,6 +29,7 @@ public class MvpController {
     // 모든 기능은 로그인 후에 접근 할 수 있도록 가정
     private final HomeService homeService;
     private final ReviewService reviewService;
+    private final MissionService missionService;
 
     // 홈 화면 스크롤
     @GetMapping("/home")
@@ -57,4 +61,20 @@ public class MvpController {
         return reviewService.getReviewDetail(reviewId);
     }
 
+    // 미션 상태 변경
+    // 미션 진행 중, 성공으로 상태 변경
+    @PatchMapping("/mission")
+    public void missionChange(
+            @RequestBody MissionChangeRequest missionChangeRequest
+    ) {
+        /**
+         *     MissionChangeRequest
+         *
+         *     Long MissionId;
+         *     String status;  // Status는 Enum 중 하나로 받아서 처리함
+         *     // status를 바꿔 실행중, 성공요청 한번에 처리할 수 있지 않나..?
+         *     String content;
+         */
+        missionService.missionChange(missionChangeRequest);
+    }
 }
